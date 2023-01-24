@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "mapbox-gl": "^2.9.2",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
@@ -22,11 +23,16 @@
     "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [">0.2%", "not dead", "not op_mini all", "defaults",
+    "not ie 11"],
+    "author": "Mapbox",
+     "license": "MIT",
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+     
     ]
+    
   }
 }
