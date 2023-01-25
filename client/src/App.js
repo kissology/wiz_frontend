@@ -8,10 +8,10 @@ function App() {
 const mapContainer = useRef(null);
 
 const map = useRef(null);
-const [lng, setLng] = useState(-74.0060);
-const [lat, setLat] = useState( 40.7128);
+const [lng, setLng] = useState(0);
+const [lat, setLat] = useState(0);
 const [zoom, setZoom] = useState(9);
-const [location, setLocation] = useState ("")
+const [address, setAddress] = useState ("")
  
 useEffect(() => {
 if (map.current) return; // initialize map only once
@@ -23,12 +23,31 @@ zoom: zoom
 }); 
 });
 
-function fetchLocation() {
-  fetch("/locations")
-  .then((r) => r.json())
-  .then((location) => setLocation(location))
-}
+function handleClick(e){
+  e.preventDefault();
 
+  let postRequest = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    },
+    body: JSON.stringify({address:address})
+  }
+  fetch("/locations/coordinates", postRequest)
+  .then((r) => r.json())
+  .then((coordinates) =>  {
+     setLng(coordinates.longitude)
+     setLat(coordinates.latitude)
+     setZoom(11)
+})
+  }
+
+function handleOnChange(e){
+  e.preventDefault();
+  const newLocation = e.target.value
+  setAddress(newLocation)
+}
 
   return (
     <div>
@@ -41,8 +60,9 @@ function fetchLocation() {
       className="search-bar"
       type="search"
       placeholder="Address"
-      onChange={(e) => {fetchLocation(e)}}
+      onChange={handleOnChange}
       />
+      <button onClick = {handleClick}>Submit</button>
     </div>
     </div>
   );
