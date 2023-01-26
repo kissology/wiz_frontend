@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Home from "./Home";
 import About from "./About";  
 import Restrooms from "./Restrooms";
+import Login from "./Login";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 
@@ -18,6 +19,8 @@ function App() {
   const [lat, setLat] = useState(0);
   const [zoom, setZoom] = useState(9);
   const [address, setAddress] = useState ("")
+  const [user, setUser] = useState(null)
+
 
 function handleClick(e){
   e.preventDefault();
@@ -64,6 +67,22 @@ console.log("i'm in the post request")
 }); 
 
   }
+
+  useEffect(() => {
+    fetch("/usersession/:id").then((r) => {
+      if (r.ok) {
+        r.json().then((user) => setUser(user))
+      }
+    })
+  },[]);
+
+  function handleLogin(user){
+  setUser(user)
+  }
+
+  function handleLogout() {
+    setUser(null)
+  }
   
 
 
@@ -73,7 +92,7 @@ console.log("i'm in the post request")
     Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
     </div>
     <div ref={mapContainer} className="map-container" />
-    <div> <input className="search-bar" type="search" placeholder="Address" onChange={handleOnChange}/> </div>
+    <div> <input value = {address} className="search-bar" type="search" placeholder="Address" onChange={handleOnChange}/> </div>
     <button className="submit-button" onClick = {handleClick}>Submit</button>
       <Navbar/>
         <Switch>
@@ -83,8 +102,14 @@ console.log("i'm in the post request")
           <Route exact path="/about">
             <About/>
           </Route>
-          <Route exact path="/">
+          <Route exact path="/home">
           <Home/>
+          </Route>
+          <Route exact path="/">
+          <Login
+          onLogin = {handleLogin}
+          onLogout = {handleLogout}
+          />
           </Route>
         </Switch>
         </div>

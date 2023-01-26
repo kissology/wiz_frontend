@@ -6,7 +6,11 @@ function Navbar(){
     return (
     <nav>
     <div>
-        <Link exact path to="/">
+    <Link exact path to="/">
+            Login
+        </Link>
+        <br></br>
+        <Link exact path to="/home">
             Home
         </Link>
         <br></br>
