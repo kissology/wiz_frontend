@@ -1,4 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
+import {Switch, Route} from "react-router-dom";
+import Navbar from './Navbar';
+import Home from "./Home";
+import About from "./About";  
+import Restrooms from "./Restrooms";
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 
@@ -6,6 +11,13 @@ mapboxgl.accessToken = 'pk.eyJ1IjoieWFhbGVzZTEiLCJhIjoiY2xkYWZpMDJhMDNjZjNwdDRkY
 
 function App() {
 
+  const mapContainer = useRef(null);
+  
+  const map = useRef(null);
+  const [lng, setLng] = useState(0);
+  const [lat, setLat] = useState(0);
+  const [zoom, setZoom] = useState(9);
+  const [address, setAddress] = useState ("")
 
 function handleClick(e){
   e.preventDefault();
@@ -23,7 +35,7 @@ function handleClick(e){
   .then((coordinates) =>  {
      setLng(coordinates.longitude)
      setLat(coordinates.latitude)
-     setZoom(11)
+     setZoom(9)
      drawMap()
 console.log("i'm in the post request")
 })
@@ -35,20 +47,11 @@ console.log("i'm in the post request")
     setAddress(newLocation)
   }
   
-  
-  const mapContainer = useRef(null);
-  
-  const map = useRef(null);
-  const [lng, setLng] = useState(0);
-  const [lat, setLat] = useState(0);
-  const [zoom, setZoom] = useState(9);
-  const [address, setAddress] = useState ("")
-  
   console.log(lng)
-useEffect(() => {
+  useEffect(() => {
   drawMap()
   console.log("here")
-  }, []);
+  }, [lng,lat]);
 
   function drawMap(){
     console.log("i'm in the drawmap function")
@@ -65,21 +68,27 @@ useEffect(() => {
 
 
   return (
-    <div>
+    <div className="App">
     <div className="sidebar">
     Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
     </div>
     <div ref={mapContainer} className="map-container" />
-    <div> 
-      <input
-      className="search-bar"
-      type="search"
-      placeholder="Address"
-      onChange={handleOnChange}
-      />
-      <button onClick = {handleClick}>Submit</button>
-    </div>
-    </div>
+    <div> <input className="search-bar" type="search" placeholder="Address" onChange={handleOnChange}/> </div>
+    <button className="submit-button" onClick = {handleClick}>Submit</button>
+      <Navbar/>
+        <Switch>
+          <Route exact path="/restrooms">
+            <Restrooms/>
+          </Route>
+          <Route exact path="/about">
+            <About/>
+          </Route>
+          <Route exact path="/">
+          <Home/>
+          </Route>
+        </Switch>
+        </div>
+  
   );
 }
 
