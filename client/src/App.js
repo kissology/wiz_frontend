@@ -40,7 +40,6 @@ function handleClick(e){
      setLat(coordinates.latitude)
      setZoom(9)
      drawMap()
-console.log("i'm in the post request")
 })
   }
   
@@ -53,11 +52,10 @@ console.log("i'm in the post request")
   console.log(lng)
   useEffect(() => {
   drawMap()
-  console.log("here")
   }, [lng,lat]);
 
   function drawMap(){
-    console.log("i'm in the drawmap function")
+    // console.log("i'm in the drawmap function")
     // if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
    container: mapContainer.current,
