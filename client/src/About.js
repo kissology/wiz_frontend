@@ -3,7 +3,7 @@ import React from 'react';
 function About () {
 
     return (
-    <div>About Page!</div>
+    <div className="about">Wiz is a public restroom finder and rater!</div>
 )
 }
 
