@@ -5,7 +5,7 @@ function Home () {
     
 
 return (
-<div>Homepage!</div>
+<div className="homepage">Homepage!</div>
     )
 }
 
